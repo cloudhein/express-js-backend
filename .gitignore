@@ -43,3 +43,6 @@ yarn-error.log*
 # Ignore package lock files (optional, depending on your preference)
 # package-lock.json
 # yarn.lock
+
+backend
+backend/*
