@@ -9,12 +9,15 @@ sudo apt-get install -y nodejs
 node -v
 npm -v
 
-git clone git@github.com:cloudhein/MERN-App-Deploy.git
-cd express-backend
+cd /home/ubuntu
+git clone https://github.com/cloudhein/express-js-backend.git
+sudo chown -R $(whoami):$(whoami) /home/ubuntu/express-js-backend/express-backend
+cd express-js-backend/express-backend
+
 
 # install dependencies
 sudo npm install 
 
 # start the server
-nohup sudo node server.js &
+nohup sudo node index.js &
 

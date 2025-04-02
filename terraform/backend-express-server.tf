@@ -1,13 +1,13 @@
 resource "aws_instance" "backend_server" {
   count = var.create_instances ? var.instance_count : 0
 
-  ami                    = data.aws_ami.ubuntu.id
-  instance_type          = local.backend_instance_type
+  ami           = data.aws_ami.ubuntu.id
+  instance_type = local.backend_instance_type
   vpc_security_group_ids = [
     aws_security_group.backend_sg.id,
     aws_security_group.ssh_sg.id
-    ]
-  subnet_id              = element(data.aws_subnets.default_vpc_subnets.ids, count.index) # create instances in different subnets
+  ]
+  subnet_id = element(data.aws_subnets.default_vpc_subnets.ids, count.index) # create instances in different subnets
 
   tags = {
     Name        = "${local.backend_instance_name}-${count.index + 1}"
