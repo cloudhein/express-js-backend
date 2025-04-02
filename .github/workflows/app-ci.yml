@@ -59,6 +59,10 @@ jobs:
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
 
+          # Update remote URL to include authentication token
+          git remote set-url origin https://x-access-token:${{ secrets.REPO_TOKEN }}@github.com/${{ github.repository }}.git
+
+
           if [[ $(git status --porcelain) ]]; then
             if ! git add .; then
               echo "Error: Failed to stage files"
