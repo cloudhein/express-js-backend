@@ -1,10 +1,10 @@
 name: react-app-express-js-ci-cd
 
-on: 
+on:
   push:
     branches:
       - main
-    
+
 env:
   NODE-VERSION: 20
 
@@ -19,7 +19,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v4.3.0
         with:
-            node-version: ${{ env.NODE-VERSION }}
+          node-version: ${{ env.NODE-VERSION }}
 
       - name: Install dependencies
         working-directory: ./express-backend
@@ -28,3 +28,53 @@ jobs:
       - name: Run unit tests
         working-directory: ./express-backend
         run: npm test
+
+  format_code:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4.3.0
+        with:
+          node-version: ${{ env.NODE-VERSION }}
+
+      - name: Install dependencies
+        working-directory: ./express-backend
+        run: npm install
+
+      - name: Format code
+        working-directory: ./express-backend
+        run: npx prettier --write .
+
+      - name: Push code
+        working-directory: ./express-backend
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+
+          if [[ $(git status --porcelain) ]]; then
+            if ! git add .; then
+              echo "Error: Failed to stage files"
+            fi
+
+            if ! git commit -m "Updated from ref: ${{ github.sha }}"; then
+              echo "Error: Failed to commit files"
+            fi
+
+            if ! git push 2>&1 | tee push.log; then
+              if grep -q "403" push.log; then
+                echo "Error: Permission denied (HTTP 403). Exiting."
+                exit 1
+              fi
+
+              if ! git pull --rebase && git push; then
+                echo "Error: failed to push the code after rebase."
+                exit 1
+              fi
+            fi
+          else
+            echo "Nothing to commit."
+          fi
