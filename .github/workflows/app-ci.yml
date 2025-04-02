@@ -1,0 +1,30 @@
+name: react-app-express-js-ci-cd
+
+on: 
+  push:
+    branches:
+      - main
+    
+env:
+  NODE-VERSION: 20
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4.3.0
+        with:
+            node-version: ${{ env.NODE-VERSION }}
+
+      - name: Install dependencies
+        working-directory: ./express-backend
+        run: npm install
+
+      - name: Run unit tests
+        working-directory: ./express-backend
+        run: npm test
