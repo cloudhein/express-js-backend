@@ -10,7 +10,7 @@ app.get("/api/v1/hello", (req, res) => {
 });
 
 const server = app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+    console.log(`Server is running on http://localhost:${port}`);
 });
 
 module.exports = { app, server };
