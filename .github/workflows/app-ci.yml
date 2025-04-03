@@ -150,8 +150,15 @@ jobs:
         run: terraform init
         working-directory: ./terraform
 
+      - name: Terraform Plan
+        working-directory: ./terraform
+        run: |
+          terraform fmt
+          terraform validate
+          terraform plan
+          terraform apply -refresh-only -auto-approve
+
       - name: Terraform Destroy
         run: |
-          terraform plan 
           terraform destroy -auto-approve
         working-directory: ./terraform
