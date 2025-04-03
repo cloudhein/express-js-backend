@@ -125,7 +125,7 @@ jobs:
         working-directory: ./terraform
         run: |
             terraform refresh
-            terraform ouput
+            terraform output
 
   destroy:
     runs-on: ubuntu-latest
