@@ -14,7 +14,10 @@ resource "aws_instance" "backend_server" {
     Environment = local.backend_environment
   }
 
-  user_data_base64 = filebase64("${path.module}/config/backend.sh")
+  user_data = templatefile("${path.module}/config/backend.sh.tftpl", {
+    run_number = var.run_number
+  })
+
 
   user_data_replace_on_change = true
 }
