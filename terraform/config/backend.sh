@@ -9,6 +9,9 @@ sudo apt-get install -y nodejs
 node -v
 npm -v
 
+# Add github run number to trigger the terraform for awareness of business logic changes
+echo "Deploying application with run number: {{RUN_NUMBER}}"
+
 cd /home/ubuntu
 git clone https://github.com/cloudhein/express-js-backend.git
 sudo chown -R $(whoami):$(whoami) /home/ubuntu/express-js-backend/express-backend
