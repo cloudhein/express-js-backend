@@ -119,13 +119,15 @@ jobs:
 
       - name: Run Terraform
         working-directory: ./terraform
-        run: terraform apply -auto-approve
+        run: |
+          RUN_NUMBER=${{ github.run_number }} 
+          terraform apply -auto-approve
 
       - name: Application endpoint output
         working-directory: ./terraform
         run: |
-            terraform apply -refresh-only -auto-approve
-            terraform output
+          terraform apply -refresh-only -auto-approve
+          terraform output
 
   destroy:
     runs-on: ubuntu-latest
