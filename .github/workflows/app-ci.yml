@@ -126,7 +126,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: deploy-app
     environment: destroy-infrastructure # Ties this job to the environment with approval
-    if: github.event_name == 'workflow_dispatch' # Only runs on manual trigger
+    if: github.event_name == 'workflow_dispatch'  # Only runs on manual trigger
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
