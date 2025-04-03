@@ -88,3 +88,8 @@ variable "instance_count" {
     error_message = "The instance count should be between 1 and 10"
   }
 }
+
+variable "run_number" {
+   description = "GitHub Actions run number"
+   type        = string
+ }
