@@ -105,14 +105,20 @@ jobs:
       - name: HashiCorp - Setup Terraform
         uses: hashicorp/setup-terraform@v3.1.2
 
-      - name: Run Terraform
+      - name: Terraform Init
+        working-directory: ./terraform
+        run: terraform init
+
+      - name: Terraform Plan
         working-directory: ./terraform
         run: |
-          terraform init
           terraform fmt
           terraform validate
-          terraform plan 
-          terraform apply -auto-approve
+          terraform plan
+
+      - name: Run Terraform
+        working-directory: ./terraform
+        run: terraform apply -auto-approve
 
   destroy:
     runs-on: ubuntu-latest
@@ -138,5 +144,7 @@ jobs:
         working-directory: ./terraform
 
       - name: Terraform Destroy
-        run: terraform destroy -auto-approve
+        run: |
+          terraform plan 
+          terraform destroy -auto-approve
         working-directory: ./terraform
