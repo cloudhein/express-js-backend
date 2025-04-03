@@ -121,6 +121,12 @@ jobs:
         working-directory: ./terraform
         run: terraform apply -auto-approve
 
+      - name: Application endpoint output
+        working-directory: ./terraform
+        run: |
+            terraform refresh
+            terraform ouput
+
   destroy:
     runs-on: ubuntu-latest
     needs: deploy-app
