@@ -124,7 +124,7 @@ jobs:
       - name: Application endpoint output
         working-directory: ./terraform
         run: |
-            terraform refresh
+            terraform apply -refresh-only -auto-approve
             terraform output
 
   destroy:
