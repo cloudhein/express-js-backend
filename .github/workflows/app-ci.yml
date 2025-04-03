@@ -112,15 +112,15 @@ jobs:
       - name: Terraform Plan
         working-directory: ./terraform
         run: |
+          RUN_NUMBER=${{ github.run_number }}
           terraform fmt
           terraform validate
-          terraform plan -var "run_number=${{ github.run_number }}"
+          terraform plan
 
       - name: Run Terraform
         working-directory: ./terraform
         run: |
-          # RUN_NUMBER=${{ github.run_number }} 
-           terraform apply -auto-approve -var "run_number=${{ github.run_number }}"
+           terraform apply -auto-approve
 
   destroy:
     runs-on: ubuntu-latest
@@ -150,8 +150,7 @@ jobs:
         run: |
           terraform fmt
           terraform validate
-          terraform plan
-          terraform apply -refresh-only -auto-approve
+          terraform plan -var "run_number=${{ github.run_number }}"
 
       - name: Terraform Destroy
         run: |
