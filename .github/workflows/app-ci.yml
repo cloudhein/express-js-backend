@@ -84,7 +84,7 @@ jobs:
             echo "Nothing to commit."
           fi
 
-  deploy:
+  deploy-app:
     runs-on: ubuntu-latest
 
     needs: format_code
