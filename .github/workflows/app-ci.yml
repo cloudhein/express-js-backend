@@ -5,6 +5,8 @@ on:
     branches:
       - main
 
+  workflow_dispatch:
+
 env:
   NODE-VERSION: 20
   AWS_REGION: ap-northeast-1
@@ -111,3 +113,29 @@ jobs:
           terraform validate
           terraform plan 
           terraform apply -auto-approve
+
+  destroy:
+    runs-on: ubuntu-latest
+    environment: destroy-infrastructure # Ties this job to the environment with approval
+    if: github.event_name == 'workflow_dispatch' # Only runs on manual trigger
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: ./terraform
+
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve
+        working-directory: ./terraform
