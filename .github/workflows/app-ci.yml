@@ -152,6 +152,7 @@ jobs:
           terraform plan -var "run_number=${{ github.run_number }}"
 
       - name: Terraform Destroy
+        working-directory: ./terraform
         run: |
           terraform destroy -auto-approve -var "run_number=${{ github.run_number }}"
-        working-directory: ./terraform
+        
