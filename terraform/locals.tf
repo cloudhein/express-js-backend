@@ -14,6 +14,8 @@ locals {
   all_protocols_ports = "-1"
   tcp_protocol        = "tcp"
   icmp_protocol       = "icmp"
+  http_port           = 80
+  backend_port        = 3000
 
   frontendapp_port = 80
 
