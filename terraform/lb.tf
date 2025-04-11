@@ -89,7 +89,7 @@ resource "aws_lb_target_group" "backend_tg" {
     Name = "backend-target-group"
   }
 
-  deregistration_delay = 40
+  deregistration_delay = 10
 }
 
 # Create a Security Group for ALB

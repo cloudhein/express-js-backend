@@ -40,7 +40,7 @@ resource "aws_launch_template" "asg-frontend-app-template" {
   }))
 
   depends_on = [
-    aws_security_group.backend_sg
+    aws_autoscaling_group.asg-backend-app
   ]
 
   block_device_mappings {
